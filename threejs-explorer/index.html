@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Three.js 3D Object Explorer</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overflow: hidden;
+        background: #0b1120;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: #f8fafc;
+        user-select: none;
+      }
+      #canvas-container {
+        position: absolute;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+      }
+      #canvas-container canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      #overlay {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(12px);
+        padding: 18px 22px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+        max-width: 360px;
+        pointer-events: auto;
+      }
+      h1 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+        color: #38bdf8;
+        letter-spacing: -0.02em;
+      }
+      p.subtitle {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        line-height: 1.4;
+        margin-bottom: 14px;
+      }
+      .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #94a3b8;
+      }
+      select {
+        background: #1e293b;
+        color: #f1f5f9;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        padding: 8px 10px;
+        font-size: 0.85rem;
+        outline: none;
+        cursor: pointer;
+        transition: border-color 0.2s;
+      }
+      select:focus {
+        border-color: #38bdf8;
+      }
+      #step-description {
+        font-size: 0.78rem;
+        color: #cbd5e1;
+        background: rgba(30, 41, 59, 0.6);
+        border-left: 3px solid #38bdf8;
+        padding: 8px 10px;
+        border-radius: 0 6px 6px 0;
+        line-height: 1.4;
+        margin-bottom: 12px;
+      }
+      .panel-section {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .status-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        margin-bottom: 8px;
+        transition: all 0.2s;
+      }
+      .status-badge.active {
+        background: rgba(236, 72, 153, 0.2);
+        color: #f472b6;
+      }
+      .color-picker-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 4px;
+      }
+      .color-picker-row label {
+        font-size: 0.8rem;
+        color: #cbd5e1;
+        text-transform: none;
+      }
+      input[type="color"] {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        background: transparent;
+      }
+      input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+      input[type="color"]::-webkit-color-swatch {
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+      }
+      input[type="color"]:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .instructions {
+        font-size: 0.74rem;
+        color: #64748b;
+        margin-top: 14px;
+        line-height: 1.5;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        padding-top: 10px;
+      }
+      .instructions strong {
+        color: #94a3b8;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas-container"></div>
+    <div id="overlay">
+      <h1>3D Object Explorer</h1>
+      <p class="subtitle">Interactive Three.js & TypeScript sandbox</p>
+
+      <div class="field-group">
+        <label for="step-selector">Learning Step:</label>
+        <select id="step-selector">
+          <option value="6" selected>Step 6: Responsive & Resource Cleanup (Complete)</option>
+          <option value="1">Step 1: Single Rotating Cube</option>
+          <option value="2">Step 2: Geometries & Materials (Cube, Sphere, Torus)</option>
+          <option value="3">Step 3: Lighting & Coordinate System</option>
+          <option value="4">Step 4: Camera Orbit Controls</option>
+          <option value="5">Step 5: Raycasting & Color Selection</option>
+        </select>
+      </div>
+
+      <div id="step-description">
+        Step 6: Full responsive canvas resizing and proper GPU memory cleanup (geometry, material, and renderer disposal).
+      </div>
+
+      <div id="interactive-panel" class="panel-section">
+        <div id="selected-badge" class="status-badge">Selected: None</div>
+        <div class="color-picker-row">
+          <label for="object-color">Color:</label>
+          <input type="color" id="object-color" value="#38bdf8" disabled />
+        </div>
+      </div>
+
+      <div class="instructions" id="instructions-box">
+        <strong>Controls:</strong><br />
+        • Click any mesh to select it<br />
+        • Drag left click: Orbit camera<br />
+        • Drag right click: Pan<br />
+        • Mouse wheel: Zoom in/out
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
