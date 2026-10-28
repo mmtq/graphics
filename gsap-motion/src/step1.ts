@@ -21,8 +21,9 @@ export function setupStep1(): void {
       rotation: 360,
       scale: 1.5,
       backgroundColor: '#f59e0b',
-      duration: 2,
-      ease: 'bounce.inOut',
+      duration: 1.2,
+      ease: 'power2.inOut',
+      borderRadius: "50%"
     });
   });
 
