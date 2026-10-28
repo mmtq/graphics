@@ -3,196 +3,631 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GSAP Interactive Playground</title>
-    <script type="module" crossorigin src="/assets/index-BK63nHNk.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-si4xXEaD.css">
+    <title>GSAP Interactive Playground & Guide</title>
+    <script type="module" crossorigin src="/assets/index--4wtVGiE.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BOsiw5ru.css">
   </head>
   <body>
     <header class="header">
       <div class="header-content">
         <div class="logo-group">
           <span class="badge">GSAP 3</span>
-          <h1>Animation Playground</h1>
+          <h1>Animation Playground & Guide</h1>
         </div>
         <p class="subtitle">
-          Interactive, step-by-step laboratory to master GreenSock Animation Platform.
+          Interactive laboratory and comprehensive theoretical reference for mastering GreenSock.
         </p>
+
+        <!-- Global View Mode Switcher -->
+        <div class="global-view-bar">
+          <span class="view-label">Global View:</span>
+          <div class="toggle-pill-group">
+            <button id="global-btn-visual" class="pill-btn active">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              All Visual
+            </button>
+            <button id="global-btn-theory" class="pill-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              All Theory
+            </button>
+          </div>
+        </div>
       </div>
     </header>
 
     <main class="container">
-      <!-- STEP 1: Single Box -->
+      <!-- ==========================================
+           STEP 1: Animate a Single Box
+           ========================================== -->
       <section class="card" id="section-step1">
         <div class="card-header">
           <div class="step-num">Step 1</div>
           <h2>Animate a Single Box</h2>
-          <span class="pill">gsap.to()</span>
-        </div>
-        <p class="card-desc">
-          Interpolates target element properties from their current state to new values using GPU-accelerated transforms.
-        </p>
-        <div class="demo-stage">
-          <div class="track">
-            <div id="box-1" class="demo-box box-blue">Box 1</div>
+          <span class="tag-pill">gsap.to()</span>
+
+          <div class="tab-group" data-card="step1">
+            <button class="tab-btn active" data-tab="visual">
+              <span class="tab-dot"></span>Visual
+            </button>
+            <button class="tab-btn" data-tab="theory">
+              <span class="tab-dot"></span>Theory
+            </button>
           </div>
         </div>
-        <div class="card-controls">
-          <button id="btn-step1-play" class="btn btn-primary">Animate Box</button>
-          <button id="btn-step1-reset" class="btn btn-secondary">Reset</button>
+
+        <!-- TAB 1: VISUAL -->
+        <div class="tab-content tab-content-visual active">
+          <p class="card-desc">
+            Interpolates target element properties from their current state to new values using GPU-accelerated transforms.
+          </p>
+          <div class="demo-stage">
+            <div class="track">
+              <div id="box-1" class="demo-box box-blue">Box 1</div>
+            </div>
+          </div>
+          <div class="card-controls">
+            <button id="btn-step1-play" class="btn btn-primary">Animate Box</button>
+            <button id="btn-step1-reset" class="btn btn-secondary">Reset</button>
+          </div>
+        </div>
+
+        <!-- TAB 2: THEORY -->
+        <div class="tab-content tab-content-theory">
+          <div class="theory-grid">
+            <div class="theory-section">
+              <h3 class="theory-title">Key Concepts</h3>
+              <ul class="concept-list">
+                <li>
+                  <strong>What is a "Tween"?</strong> Short for <em>in-between</em>. A tween smoothly interpolates properties of a target object between a start and end state over a specified duration.
+                </li>
+                <li>
+                  <strong><code>gsap.to(target, vars)</code> syntax:</strong>
+                  <ul>
+                    <li><code>target</code>: CSS selector string (e.g. <code>"#box-1"</code>), DOM element, or array of elements.</li>
+                    <li><code>vars</code>: Object containing CSS properties to animate (<code>x</code>, <code>y</code>, <code>rotation</code>, <code>scale</code>, <code>backgroundColor</code>) plus timing options (<code>duration</code>, <code>ease</code>).</li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>Transforms over layout:</strong> Under the hood, GSAP's <code>x</code> and <code>y</code> translate elements via CSS <code>transform: translate(...)</code>, which runs on the GPU and avoids costly browser layout thrashing (unlike <code>top</code> and <code>left</code>).
+                </li>
+              </ul>
+            </div>
+
+            <div class="theory-section">
+              <div class="code-header">
+                <span class="code-title">Code Reference</span>
+                <span class="file-badge">src/step1.ts</span>
+              </div>
+              <pre class="code-block"><code><span class="kw">import</span> gsap <span class="kw">from</span> <span class="str">'gsap'</span>;
+
+<span class="cmt">// Animate from current state to new values</span>
+gsap.<span class="fn">to</span>(<span class="str">'#box-1'</span>, {
+  x: <span class="num">220</span>,
+  rotation: <span class="num">360</span>,
+  scale: <span class="num">1.2</span>,
+  backgroundColor: <span class="str">'#f59e0b'</span>,
+  duration: <span class="num">1.2</span>,
+  ease: <span class="str">'power2.out'</span>
+});</code></pre>
+            </div>
+
+            <div class="theory-section callout-modifications">
+              <h4 class="mod-title">Experiments & Modifications to Try:</h4>
+              <ol class="mod-list">
+                <li><strong>Add infinite oscillation:</strong> Add <code>repeat: -1</code> and <code>yoyo: true</code> into the vars object in <code>src/step1.ts</code>.</li>
+                <li><strong>Morph shape:</strong> Add <code>borderRadius: "50%"</code> to transform the square into a circle during motion.</li>
+                <li><strong>Arc trajectory:</strong> Add <code>y: -60</code> alongside <code>x: 220</code> to make the box jump upward in an arc.</li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- STEP 2: Compare to, from, fromTo -->
+      <!-- ==========================================
+           STEP 2: Compare to, from, fromTo
+           ========================================== -->
       <section class="card" id="section-step2">
         <div class="card-header">
           <div class="step-num">Step 2</div>
           <h2>Compare to(), from(), and fromTo()</h2>
-          <span class="pill">Core Methods</span>
-        </div>
-        <p class="card-desc">
-          Compare how GSAP determines starting and ending positions. Notice how <code>from()</code> is ideal for entrance reveals, while <code>fromTo()</code> guarantees both states.
-        </p>
-        <div class="demo-stage comparison-grid">
-          <div class="compare-row">
-            <span class="label"><code>to()</code></span>
-            <div class="track">
-              <div id="box-to" class="demo-box box-emerald">to</div>
-            </div>
-            <button id="btn-run-to" class="btn btn-sm">Run to()</button>
-          </div>
-          <div class="compare-row">
-            <span class="label"><code>from()</code></span>
-            <div class="track">
-              <div id="box-from" class="demo-box box-amber">from</div>
-            </div>
-            <button id="btn-run-from" class="btn btn-sm">Run from()</button>
-          </div>
-          <div class="compare-row">
-            <span class="label"><code>fromTo()</code></span>
-            <div class="track">
-              <div id="box-fromto" class="demo-box box-purple">fromTo</div>
-            </div>
-            <button id="btn-run-fromto" class="btn btn-sm">Run fromTo()</button>
+          <span class="tag-pill">Core Methods</span>
+
+          <div class="tab-group" data-card="step2">
+            <button class="tab-btn active" data-tab="visual">
+              <span class="tab-dot"></span>Visual
+            </button>
+            <button class="tab-btn" data-tab="theory">
+              <span class="tab-dot"></span>Theory
+            </button>
           </div>
         </div>
-        <div class="card-controls">
-          <button id="btn-step2-reset" class="btn btn-secondary">Reset All</button>
+
+        <!-- TAB 1: VISUAL -->
+        <div class="tab-content tab-content-visual active">
+          <p class="card-desc">
+            Compare how GSAP determines starting and ending positions. Notice how <code>from()</code> is ideal for entrance reveals, while <code>fromTo()</code> guarantees both states.
+          </p>
+          <div class="demo-stage comparison-grid">
+            <div class="compare-row">
+              <span class="label"><code>to()</code></span>
+              <div class="track">
+                <div id="box-to" class="demo-box box-emerald">to</div>
+              </div>
+              <button id="btn-run-to" class="btn btn-sm">Run to()</button>
+            </div>
+            <div class="compare-row">
+              <span class="label"><code>from()</code></span>
+              <div class="track">
+                <div id="box-from" class="demo-box box-amber">from</div>
+              </div>
+              <button id="btn-run-from" class="btn btn-sm">Run from()</button>
+            </div>
+            <div class="compare-row">
+              <span class="label"><code>fromTo()</code></span>
+              <div class="track">
+                <div id="box-fromto" class="demo-box box-purple">fromTo</div>
+              </div>
+              <button id="btn-run-fromto" class="btn btn-sm">Run fromTo()</button>
+            </div>
+          </div>
+          <div class="card-controls">
+            <button id="btn-step2-reset" class="btn btn-secondary">Reset All</button>
+          </div>
+        </div>
+
+        <!-- TAB 2: THEORY -->
+        <div class="tab-content tab-content-theory">
+          <div class="theory-grid">
+            <div class="theory-section">
+              <h3 class="theory-title">Method Breakdown & Comparison</h3>
+              <div class="comparison-cards">
+                <div class="comp-card">
+                  <h4><code>gsap.to(target, toVars)</code></h4>
+                  <p>Animates <strong>from</strong> the element's current computed state <strong>to</strong> the values defined in <code>toVars</code>.</p>
+                  <span class="badge-role">Best for: User interactions, button hover/clicks, responsive state shifts.</span>
+                </div>
+                <div class="comp-card">
+                  <h4><code>gsap.from(target, fromVars)</code></h4>
+                  <p>Animates <strong>from</strong> specified values <strong>to</strong> the element's natural CSS layout position.</p>
+                  <span class="badge-role">Best for: Entrance reveals (start invisible/shifted and land in regular layout).</span>
+                </div>
+                <div class="comp-card">
+                  <h4><code>gsap.fromTo(target, fromVars, toVars)</code></h4>
+                  <p>Explicitly defines <strong>both</strong> starting and destination states. Overrides any prior inline styles.</p>
+                  <span class="badge-role">Best for: Deterministic loops, complex component re-mounts.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="theory-section alert-box">
+              <div class="alert-icon">⚠️</div>
+              <div>
+                <strong>The Classic <code>gsap.from()</code> Gotcha:</strong>
+                If a user triggers <code>gsap.from()</code> again while the first animation is halfway through, GSAP reads the <em>intermediate</em> position as the new destination! Use <code>gsap.fromTo()</code> or kill prior tweens when re-triggering entrance animations.
+              </div>
+            </div>
+
+            <div class="theory-section">
+              <div class="code-header">
+                <span class="code-title">Code Reference</span>
+                <span class="file-badge">src/step2.ts</span>
+              </div>
+              <pre class="code-block"><code><span class="cmt">// 1. to: moves forward from wherever it is</span>
+gsap.<span class="fn">to</span>(<span class="str">'#box-to'</span>, { x: <span class="num">180</span>, rotation: <span class="num">180</span>, duration: <span class="num">1</span> });
+
+<span class="cmt">// 2. from: starts at x:180 and returns to natural CSS state</span>
+gsap.<span class="fn">from</span>(<span class="str">'#box-from'</span>, { x: <span class="num">180</span>, opacity: <span class="num">0.1</span>, duration: <span class="num">1</span> });
+
+<span class="cmt">// 3. fromTo: forces both boundaries explicitly</span>
+gsap.<span class="fn">fromTo</span>(
+  <span class="str">'#box-fromto'</span>,
+  { x: -<span class="num">30</span>, opacity: <span class="num">0.2</span>, scale: <span class="num">0.6</span> },
+  { x: <span class="num">180</span>, opacity: <span class="num">1</span>, scale: <span class="num">1</span>, duration: <span class="num">1</span> }
+);</code></pre>
+            </div>
+
+            <div class="theory-section callout-modifications">
+              <h4 class="mod-title">Experiments & Modifications to Try:</h4>
+              <ol class="mod-list">
+                <li><strong>Observe the "stuck" bug:</strong> Click the "Run from()" button 4 times rapidly while the box is moving. Notice how it gets stuck halfway. Then try doing the same to "Run fromTo()".</li>
+                <li><strong>Modal pop entrance:</strong> In <code>src/step2.ts</code>, modify <code>runFrom</code> to use <code>{ y: -80, scale: 0.5, opacity: 0, ease: 'back.out(2)' }</code>.</li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- STEP 3: Easing Functions -->
+      <!-- ==========================================
+           STEP 3: Easing Functions
+           ========================================== -->
       <section class="card" id="section-step3">
         <div class="card-header">
           <div class="step-num">Step 3</div>
           <h2>Experiment with Easing Functions</h2>
-          <span class="pill">Acceleration Curves</span>
-        </div>
-        <p class="card-desc">
-          Eases define the rate of change over time. Test how different curves (physics bounce, spring elasticity, power deceleration) change the mood of the animation.
-        </p>
-        <div class="demo-stage">
-          <div class="track">
-            <div id="box-easing" class="demo-box box-rose">Ease</div>
+          <span class="tag-pill">Acceleration Curves</span>
+
+          <div class="tab-group" data-card="step3">
+            <button class="tab-btn active" data-tab="visual">
+              <span class="tab-dot"></span>Visual
+            </button>
+            <button class="tab-btn" data-tab="theory">
+              <span class="tab-dot"></span>Theory
+            </button>
           </div>
         </div>
-        <div class="snippet-box">
-          <code id="snippet-ease">gsap.to("#box-easing", { x: 240, duration: 1.4, ease: "power2.out" });</code>
+
+        <!-- TAB 1: VISUAL -->
+        <div class="tab-content tab-content-visual active">
+          <p class="card-desc">
+            Eases define the rate of change over time. Test how different curves (physics bounce, spring elasticity, power deceleration) change the mood of the animation.
+          </p>
+          <div class="demo-stage">
+            <div class="track">
+              <div id="box-easing" class="demo-box box-rose">Ease</div>
+            </div>
+          </div>
+          <div class="snippet-box">
+            <code id="snippet-ease">gsap.to("#box-easing", { x: 240, duration: 1.4, ease: "power2.out" });</code>
+          </div>
+          <div class="card-controls form-row">
+            <label for="select-ease" class="form-label">Select Ease:</label>
+            <select id="select-ease" class="select-input">
+              <option value="power2.out" selected>power2.out (Smooth UI landing)</option>
+              <option value="power4.out">power4.out (Strong dramatic deceleration)</option>
+              <option value="bounce.out">bounce.out (Realistic gravity bounce)</option>
+              <option value="elastic.out(1, 0.3)">elastic.out(1, 0.3) (Springy oscillation)</option>
+              <option value="back.out(2)">back.out(2) (Playful overshoot)</option>
+              <option value="steps(6)">steps(6) (Retro discrete steps)</option>
+              <option value="none">none (Linear / mechanical)</option>
+            </select>
+            <button id="btn-run-ease" class="btn btn-primary">Run Ease</button>
+            <button id="btn-reset-ease" class="btn btn-secondary">Reset</button>
+          </div>
         </div>
-        <div class="card-controls form-row">
-          <label for="select-ease" class="form-label">Select Ease:</label>
-          <select id="select-ease" class="select-input">
-            <option value="power2.out" selected>power2.out (Smooth UI landing)</option>
-            <option value="power4.out">power4.out (Strong dramatic deceleration)</option>
-            <option value="bounce.out">bounce.out (Realistic gravity bounce)</option>
-            <option value="elastic.out(1, 0.3)">elastic.out(1, 0.3) (Springy oscillation)</option>
-            <option value="back.out(2)">back.out(2) (Playful overshoot)</option>
-            <option value="steps(6)">steps(6) (Retro discrete steps)</option>
-            <option value="none">none (Linear / mechanical)</option>
-          </select>
-          <button id="btn-run-ease" class="btn btn-primary">Run Ease</button>
-          <button id="btn-reset-ease" class="btn btn-secondary">Reset</button>
+
+        <!-- TAB 2: THEORY -->
+        <div class="tab-content tab-content-theory">
+          <div class="theory-grid">
+            <div class="theory-section">
+              <h3 class="theory-title">Understanding Easing Curves</h3>
+              <p class="text-sm">
+                An ease dictates how an animation accelerates and decelerates across its duration. GSAP's naming convention follows: <code>&lt;type&gt;.&lt;direction&gt;</code>.
+              </p>
+              <div class="table-container">
+                <table class="theory-table">
+                  <thead>
+                    <tr>
+                      <th>Direction</th>
+                      <th>Behavior</th>
+                      <th>Primary UI Use Case</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>.out</code></td>
+                      <td>Starts fast, slows down at the end</td>
+                      <td><strong>UI Standard</strong>: elements entering, expanding, or responding to clicks.</td>
+                    </tr>
+                    <tr>
+                      <td><code>.in</code></td>
+                      <td>Starts slow, accelerates into destination</td>
+                      <td>Elements exiting the screen or falling due to gravity.</td>
+                    </tr>
+                    <tr>
+                      <td><code>.inOut</code></td>
+                      <td>Slow start, fast middle, slow finish</td>
+                      <td>Seamless loops, camera pans, loading bars.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="theory-section">
+              <h3 class="theory-title">Configurable Curves</h3>
+              <ul class="concept-list">
+                <li>
+                  <strong><code>back.out(overshoot)</code>:</strong> Travels past destination before snapping back. Default overshoot is <code>1.7</code>. Passing <code>3</code> produces a much more exaggerated snap.
+                </li>
+                <li>
+                  <strong><code>elastic.out(amplitude, period)</code>:</strong> Simulates a guitar string or rubber band. Smaller period values yield rapid, tight vibrations.
+                </li>
+                <li>
+                  <strong><code>steps(n)</code>:</strong> Discretizes time into <em>n</em> steps, ideal for retro arcade graphics or sprite-sheet animations.
+                </li>
+              </ul>
+            </div>
+
+            <div class="theory-section callout-modifications">
+              <h4 class="mod-title">Experiments & Modifications to Try:</h4>
+              <ol class="mod-list">
+                <li><strong>Compare power curves:</strong> Switch between <code>power1.out</code> (gentle) and <code>power4.out</code> (aggressive brake) to feel deceleration dynamics.</li>
+                <li><strong>Exaggerate bounce:</strong> Test <code>back.out(4)</code> in <code>src/step3.ts</code> to see the dramatic rubber-band recovery.</li>
+                <li><strong>8-bit walk cycle:</strong> Set ease to <code>steps(4)</code> with <code>duration: 0.8</code> to create a classic pixelated step motion.</li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- STEP 4: Timelines and Stagger -->
+      <!-- ==========================================
+           STEP 4: Timelines and Stagger
+           ========================================== -->
       <section class="card" id="section-step4">
         <div class="card-header">
           <div class="step-num">Step 4</div>
           <h2>Timeline: Overlaps & Stagger</h2>
-          <span class="pill">gsap.timeline()</span>
-        </div>
-        <p class="card-desc">
-          Sequences animations seamlessly. Uses the position parameter (<code>"&lt;0.2"</code>, <code>"-=0.15"</code>) to overlap steps, and <code>stagger</code> to delay sequential elements.
-        </p>
-        <div class="demo-stage">
-          <div class="mock-card" id="tl-card">
-            <div class="mock-header">
-              <span id="tl-badge" class="mock-badge">Featured</span>
-              <h3 id="tl-title">Mastering GSAP Timelines</h3>
-            </div>
-            <div class="mock-tags">
-              <span class="tl-item tag-item">Position Parameter</span>
-              <span class="tl-item tag-item">Stagger</span>
-              <span class="tl-item tag-item">Chaining</span>
-              <span class="tl-item tag-item">Defaults</span>
-            </div>
-            <button id="tl-btn" class="mock-button">Explore Feature</button>
+          <span class="tag-pill">gsap.timeline()</span>
+
+          <div class="tab-group" data-card="step4">
+            <button class="tab-btn active" data-tab="visual">
+              <span class="tab-dot"></span>Visual
+            </button>
+            <button class="tab-btn" data-tab="theory">
+              <span class="tab-dot"></span>Theory
+            </button>
           </div>
         </div>
-        <div class="card-controls">
-          <button id="btn-run-timeline" class="btn btn-primary">Play Sequence</button>
-          <button id="btn-reset-timeline" class="btn btn-secondary">Reset Elements</button>
+
+        <!-- TAB 1: VISUAL -->
+        <div class="tab-content tab-content-visual active">
+          <p class="card-desc">
+            Sequences animations seamlessly. Uses the position parameter (<code>"&lt;0.2"</code>, <code>"-=0.15"</code>) to overlap steps, and <code>stagger</code> to delay sequential elements.
+          </p>
+          <div class="demo-stage">
+            <div class="mock-card" id="tl-card">
+              <div class="mock-header">
+                <span id="tl-badge" class="mock-badge">Featured</span>
+                <h3 id="tl-title">Mastering GSAP Timelines</h3>
+              </div>
+              <div class="mock-tags">
+                <span class="tl-item tag-item">Position Parameter</span>
+                <span class="tl-item tag-item">Stagger</span>
+                <span class="tl-item tag-item">Chaining</span>
+                <span class="tl-item tag-item">Defaults</span>
+              </div>
+              <button id="tl-btn" class="mock-button">Explore Feature</button>
+            </div>
+          </div>
+          <div class="card-controls">
+            <button id="btn-run-timeline" class="btn btn-primary">Play Sequence</button>
+            <button id="btn-reset-timeline" class="btn btn-secondary">Reset Elements</button>
+          </div>
+        </div>
+
+        <!-- TAB 2: THEORY -->
+        <div class="tab-content tab-content-theory">
+          <div class="theory-grid">
+            <div class="theory-section">
+              <h3 class="theory-title">Why Use Timelines?</h3>
+              <p class="text-sm">
+                Managing sequential animations with manual <code>delay</code> properties is brittle: changing the duration of step 1 requires manually recalculating all subsequent delays. A <code>gsap.timeline()</code> orchestrates choreographies automatically.
+              </p>
+            </div>
+
+            <div class="theory-section">
+              <h3 class="theory-title">The Position Parameter (Timeline Superpower)</h3>
+              <div class="table-container">
+                <table class="theory-table">
+                  <thead>
+                    <tr>
+                      <th>Value</th>
+                      <th>Meaning</th>
+                      <th>Effect</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><em>(omitted)</em></td>
+                      <td>End of previous tween</td>
+                      <td>Standard sequence (one after another)</td>
+                    </tr>
+                    <tr>
+                      <td><code>"&lt;"</code></td>
+                      <td>Start of previous tween</td>
+                      <td>Plays completely synchronized in parallel</td>
+                    </tr>
+                    <tr>
+                      <td><code>"&lt;0.2"</code></td>
+                      <td>0.2s after previous starts</td>
+                      <td>Overlapping cascade (fluid motion)</td>
+                    </tr>
+                    <tr>
+                      <td><code>"-=0.3"</code></td>
+                      <td>0.3s before previous finishes</td>
+                      <td>Smooth lead-in overlap</td>
+                    </tr>
+                    <tr>
+                      <td><code>"+=0.5"</code></td>
+                      <td>0.5s after previous finishes</td>
+                      <td>Introduces a deliberate pause / gap</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="theory-section">
+              <div class="code-header">
+                <span class="code-title">Code Reference</span>
+                <span class="file-badge">src/step4.ts</span>
+              </div>
+              <pre class="code-block"><code><span class="kw">const</span> tl = gsap.<span class="fn">timeline</span>({
+  defaults: { duration: <span class="num">0.5</span>, ease: <span class="str">'power2.out'</span> }
+});
+
+tl.<span class="fn">from</span>(<span class="str">'#tl-badge'</span>, { x: -<span class="num">40</span>, opacity: <span class="num">0</span> })
+  <span class="cmt">// Starts 0.2s into the badge animation (overlap)</span>
+  .<span class="fn">from</span>(<span class="str">'#tl-title'</span>, { y: <span class="num">20</span>, opacity: <span class="num">0</span> }, <span class="str">'&lt;0.2'</span>)
+  <span class="cmt">// Staggers tags by 100ms each, starting before title finishes</span>
+  .<span class="fn">from</span>(<span class="str">'.tl-item'</span>, {
+    scale: <span class="num">0</span>,
+    opacity: <span class="num">0</span>,
+    stagger: <span class="num">0.1</span>,
+    ease: <span class="str">'back.out(1.8)'</span>
+  }, <span class="str">'-=0.15'</span>)
+  .<span class="fn">from</span>(<span class="str">'#tl-btn'</span>, { y: <span class="num">15</span>, opacity: <span class="num">0</span> }, <span class="str">'&lt;0.2'</span>);</code></pre>
+            </div>
+
+            <div class="theory-section callout-modifications">
+              <h4 class="mod-title">Experiments & Modifications to Try:</h4>
+              <ol class="mod-list">
+                <li><strong>Change stagger origin:</strong> In <code>src/step4.ts</code>, replace <code>stagger: 0.1</code> with <code>stagger: { each: 0.1, from: 'center' }</code> or <code>from: 'end'</code>.</li>
+                <li><strong>Total synchronization:</strong> Change <code>"&lt;0.2"</code> on the title to <code>"&lt;"</code> to see badge and title pop in together.</li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- STEP 5: Playback Controls -->
+      <!-- ==========================================
+           STEP 5: Playback Controls
+           ========================================== -->
       <section class="card" id="section-step5">
         <div class="card-header">
           <div class="step-num">Step 5</div>
           <h2>Playback Controls & Scrubbing</h2>
-          <span class="pill">Interactive Playhead</span>
-        </div>
-        <p class="card-desc">
-          Inspect and manipulate a paused timeline instance with <code>play()</code>, <code>pause()</code>, <code>reverse()</code>, <code>restart()</code>, speed multiplier, and real-time scrub slider.
-        </p>
-        <div class="demo-stage">
-          <div class="multi-track">
-            <div id="ctrl-disc-1" class="demo-disc disc-pink">1</div>
-            <div id="ctrl-disc-2" class="demo-disc disc-violet">2</div>
-            <div id="ctrl-disc-3" class="demo-disc disc-cyan">3</div>
+          <span class="tag-pill">Interactive Playhead</span>
+
+          <div class="tab-group" data-card="step5">
+            <button class="tab-btn active" data-tab="visual">
+              <span class="tab-dot"></span>Visual
+            </button>
+            <button class="tab-btn" data-tab="theory">
+              <span class="tab-dot"></span>Theory
+            </button>
           </div>
         </div>
 
-        <!-- Slider & Playhead Info -->
-        <div class="scrub-container">
-          <div class="scrub-meta">
-            <span id="display-state" class="status-badge">Paused</span>
-            <span id="display-time" class="time-readout">0.00s / 1.40s (0%)</span>
+        <!-- TAB 1: VISUAL -->
+        <div class="tab-content tab-content-visual active">
+          <p class="card-desc">
+            Inspect and manipulate a paused timeline instance with <code>play()</code>, <code>pause()</code>, <code>reverse()</code>, <code>restart()</code>, speed multiplier, and real-time scrub slider.
+          </p>
+          <div class="demo-stage">
+            <div class="multi-track">
+              <div id="ctrl-disc-1" class="demo-disc disc-pink">1</div>
+              <div id="ctrl-disc-2" class="demo-disc disc-violet">2</div>
+              <div id="ctrl-disc-3" class="demo-disc disc-cyan">3</div>
+            </div>
           </div>
-          <input
-            id="slider-progress"
-            type="range"
-            min="0"
-            max="100"
-            value="0"
-            step="0.1"
-            class="scrub-slider"
-          />
+
+          <!-- Slider & Playhead Info -->
+          <div class="scrub-container">
+            <div class="scrub-meta">
+              <span id="display-state" class="status-badge">Paused</span>
+              <span id="display-time" class="time-readout">0.00s / 1.40s (0%)</span>
+            </div>
+            <input
+              id="slider-progress"
+              type="range"
+              min="0"
+              max="100"
+              value="0"
+              step="0.1"
+              class="scrub-slider"
+            />
+          </div>
+
+          <div class="card-controls playback-controls">
+            <button id="btn-ctrl-play" class="btn btn-success">▶ Play</button>
+            <button id="btn-ctrl-pause" class="btn btn-warning">⏸ Pause</button>
+            <button id="btn-ctrl-reverse" class="btn btn-info">◀ Reverse</button>
+            <button id="btn-ctrl-restart" class="btn btn-secondary">↺ Restart</button>
+
+            <div class="speed-control">
+              <label for="select-speed" class="form-label">Speed:</label>
+              <select id="select-speed" class="select-input select-sm">
+                <option value="0.5">0.5x (Slow)</option>
+                <option value="1" selected>1.0x (Normal)</option>
+                <option value="2">2.0x (Fast)</option>
+              </select>
+            </div>
+          </div>
         </div>
 
-        <div class="card-controls playback-controls">
-          <button id="btn-ctrl-play" class="btn btn-success">▶ Play</button>
-          <button id="btn-ctrl-pause" class="btn btn-warning">⏸ Pause</button>
-          <button id="btn-ctrl-reverse" class="btn btn-info">◀ Reverse</button>
-          <button id="btn-ctrl-restart" class="btn btn-secondary">↺ Restart</button>
+        <!-- TAB 2: THEORY -->
+        <div class="tab-content tab-content-theory">
+          <div class="theory-grid">
+            <div class="theory-section">
+              <h3 class="theory-title">Playback Control API</h3>
+              <p class="text-sm">
+                Every Timeline or Tween instance is a stateful controller object providing complete programmatic control:
+              </p>
+              <div class="table-container">
+                <table class="theory-table">
+                  <thead>
+                    <tr>
+                      <th>Method</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>tl.play()</code></td>
+                      <td>Plays forward from the current playhead position.</td>
+                    </tr>
+                    <tr>
+                      <td><code>tl.pause()</code></td>
+                      <td>Freezes the playhead at the current exact millisecond.</td>
+                    </tr>
+                    <tr>
+                      <td><code>tl.reverse()</code></td>
+                      <td>Plays in reverse back toward time <code>0</code>.</td>
+                    </tr>
+                    <tr>
+                      <td><code>tl.restart()</code></td>
+                      <td>Rewinds the playhead to <code>0</code> and begins playing forward.</td>
+                    </tr>
+                    <tr>
+                      <td><code>tl.timeScale(speed)</code></td>
+                      <td>Sets playback speed multiplier (<code>0.5</code> = slow motion, <code>2.0</code> = double speed).</td>
+                    </tr>
+                    <tr>
+                      <td><code>tl.progress(0-1)</code></td>
+                      <td>Getter & setter for progress from <code>0.0</code> (start) to <code>1.0</code> (complete).</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
-          <div class="speed-control">
-            <label for="select-speed" class="form-label">Speed:</label>
-            <select id="select-speed" class="select-input select-sm">
-              <option value="0.5">0.5x (Slow)</option>
-              <option value="1" selected>1.0x (Normal)</option>
-              <option value="2">2.0x (Fast)</option>
-            </select>
+            <div class="theory-section">
+              <h3 class="theory-title">Two-Way Scrubbing with <code>onUpdate</code></h3>
+              <p class="text-sm">
+                By passing <code>{ paused: true }</code> and an <code>onUpdate</code> callback, we keep an HTML range slider synchronized with GSAP's internal playhead, while also letting user slider inputs scrub the animation directly.
+              </p>
+              <div class="code-header">
+                <span class="code-title">Code Reference</span>
+                <span class="file-badge">src/step5.ts</span>
+              </div>
+              <pre class="code-block"><code><span class="kw">const</span> tl = gsap.<span class="fn">timeline</span>({
+  paused: <span class="kw">true</span>,
+  onUpdate: () => {
+    <span class="kw">const</span> prog = tl.<span class="fn">progress</span>();
+    slider.value = (prog * <span class="num">100</span>).<span class="fn">toFixed</span>(<span class="num">1</span>);
+  }
+});
+
+<span class="cmt">// Dragging the slider scrubs the animation</span>
+slider.<span class="fn">addEventListener</span>(<span class="str">'input'</span>, () => {
+  tl.<span class="fn">pause</span>();
+  tl.<span class="fn">progress</span>(<span class="fn">parseFloat</span>(slider.value) / <span class="num">100</span>);
+});</code></pre>
+            </div>
+
+            <div class="theory-section callout-modifications">
+              <h4 class="mod-title">Experiments & Modifications to Try:</h4>
+              <ol class="mod-list">
+                <li><strong>Frame-by-frame scrub:</strong> Pause the animation and drag the scrubber slowly across the bar. Notice how transforms, rotation, scale, and color blend smoothly at any sub-pixel point.</li>
+                <li><strong>Infinite breathing timeline:</strong> Pass <code>{ repeat: -1, yoyo: true }</code> into <code>gsap.timeline(...)</code> in <code>src/step5.ts</code>. You can still pause and scrub it while it loops!</li>
+              </ol>
+            </div>
           </div>
         </div>
       </section>
